@@ -7,6 +7,10 @@ class ListNode:
         self.prev = prev
         self.value = value
         self.next = next
+
+    def remove_node(self):
+        self.next.prev = self.prev.next
+        self.prev.next = self.next.prev    
             
 """
 Our doubly-linked list class. It holds references to 
@@ -93,28 +97,45 @@ class DoublyLinkedList:
     List and inserts it as the new head node of the List.
     """
     def move_to_front(self, node):
-        current = self.head
-        while node.value != current.value:
-            current = current.next
-        if current.next is not None:    
-            current.next.prev = current.prev.next
-            current.prev.next = current.next.prev
-        self.head.next = self.head
-        self.head = node
+        if self.length == 0 or self.length == 1:
+            self.head = node
+            self.tail = node
+        else:    
+            current = self.head
+            while node.value != current.value:
+                current = current.next
+            if current.next is None and current.prev is None:
+                self.head = None
+                self.tail = None    
+            elif current.next is not None and current.prev is not None:  
+                    current.next.prev = current.prev.next
+                    current.prev.next = current.next.prev
+            elif current.next is not None and current.prev is None:
+                self.head = current.next
+                self.head.prev = None
+            else:    
+                self.tail = current.prev
+                self.tail.next = None
+            temp = self.head
+            self.head = node
+            self.head.prev = None
+            self.head.next = temp
         
     """
     Removes the input node from its current spot in the 
     List and inserts it as the new tail node of the List.
     """
     def move_to_end(self, node):
-        current = self.tail
-        while node.value != current.value:
-            current = current.prev
-        current.next.prev = current.prev.next
-        current.prev.next = current.next.prev
-        self.tail.prev = self.tail
-        self.tail = node
-
+        if self.head.value == node.value:
+            self.remove_from_head()
+            self.add_to_tail(node.value)
+        elif self.tail.value == node.value:
+            pass
+        else:  
+            node.remove_node()
+            self.length -= 1
+            self.add_to_tail(node.value)      
+            
     """
     Deletes the input node from the List, preserving the 
     order of the other elements of the List.
@@ -123,12 +144,19 @@ class DoublyLinkedList:
         current = self.head
         while node.value != current.value:
             current = current.next
-        if current.next is not None:    
-            current.next.prev = current.prev.next
-            current.prev.next = current.next.prev
-        else:
+        if current.next is None and current.prev is None:
+            self.head = None
+            self.tail = None    
+        elif current.next is not None and current.prev is not None:  
+                current.next.prev = current.prev.next
+                current.prev.next = current.next.prev
+        elif current.next is not None and current.prev is None:
+            self.head = current.next
+            self.head.prev = None
+        else:    
             self.tail = current.prev
             self.tail.next = None
+        self.length -= 1    
 
     """
     Finds and returns the maximum value of all the nodes 
