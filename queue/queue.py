@@ -9,6 +9,12 @@ return elements in First In First Out order.
    Make sure the Queue tests pass.
 3. What is the difference between using an array vs. a linked list when 
    implementing a Queue?
+
+    A queue that's implemented with a linked list will never be at risk of running
+    out of continuous memory to store more items, which guarantees a worst case scenario
+    of O(1). If the queue is implemented with an array, the queue will at some point run
+    out of continuous memory to enqueue the next item, and have to duplicate itself elsewhere,
+    resulting in O(n).
    
 Stretch: What if you could only use instances of your Stack class to implement the Queue?
          What would that look like? How many Stacks would you need? Try it!

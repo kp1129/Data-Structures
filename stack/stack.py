@@ -9,6 +9,12 @@ return elements in Last In First Out order.
    Make sure the Stack tests pass.
 3. What is the difference between using an array vs. a linked list when 
    implementing a Stack?
+
+    The difference is that with the linked list implementation we are guaranteed
+    a worst case scenario of O(1) when appending or removing from the stack.
+    The array implementation will also be O(1) until the array runs out of 
+    continuous memory and has to duplicate itself elsewhere and then complete
+    the operation, at which point it becomes O(n).
 """
 
 from singly_linked_list_backup import Node
